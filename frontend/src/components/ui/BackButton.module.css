@@ -1,0 +1,65 @@
+.backButtonContainer {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  height: auto;
+  padding: 0.25rem;
+  margin: 0.25rem;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+}
+
+.backButtonContainer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-background);
+  opacity: 0.8;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: -1;
+}
+
+.backButton {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0.25rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--color-gray-700);
+}
+
+.backButton:hover {
+  background-color: var(--color-gray-200);
+}
+
+.backIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .backButtonContainer {
+    padding: 0.2rem;
+  }
+  
+  .backButton {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  .backIcon {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+}

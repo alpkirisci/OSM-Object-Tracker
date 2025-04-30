@@ -1,0 +1,80 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.1.7
+   - Local:        http://localhost:3000
+   - Network:      http://10.150.42.124:3000
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ ✓ Ready in 2.2s
+ ○ Compiling / ...
+
+
+Source path: /home/ideapad/Desktop/AAAAAA/auto_education/frontend/src/app/globals.css
+Setting up new context...
+Finding changed files: 10.92ms
+Reading changed files: 237.256ms
+Sorting candidates: 3.678ms
+Generate rules: 106.841ms
+Build stylesheet: 2.626ms
+Potential classes:  2353
+Active contexts:  1
+JIT TOTAL: 624.973ms
+
+
+ ✓ Compiled / in 5.6s (660 modules)
+
+
+Source path: /home/ideapad/Desktop/AAAAAA/auto_education/frontend/src/app/globals.css
+Finding changed files: 3.543ms
+Reading changed files: 0.082ms
+Sorting candidates: 0.006ms
+Generate rules: 0.158ms
+Build stylesheet: 0.004ms
+Potential classes:  1
+Active contexts:  1
+JIT TOTAL: 31.205ms
+
+
+ GET / 200 in 6217ms
+ ✓ Compiled in 608ms (309 modules)
+ ✓ Compiled /favicon.ico in 263ms (348 modules)
+ GET /favicon.ico 200 in 369ms
+ GET / 200 in 155ms
+ GET /favicon.ico 200 in 9ms
+ ✓ Compiled /login in 391ms (650 modules)
+ GET /login 200 in 490ms
+ GET / 200 in 19ms
+ ○ Compiling /course/[id] ...
+ ✓ Compiled /course/[id] in 1072ms (734 modules)
+ GET /course/9575a9a6-2b8b-422a-85fd-440634cbffb0 200 in 1774ms
+ GET /course/9575a9a6-2b8b-422a-85fd-440634cbffb0 200 in 33ms
+ ○ Compiling /edit-chapter/[id] ...
+
+
+Source path: /home/ideapad/Desktop/AAAAAA/auto_education/frontend/node_modules/react-pdf/dist/esm/Page/TextLayer.css
+
+
+Source path: /home/ideapad/Desktop/AAAAAA/auto_education/frontend/node_modules/react-pdf/dist/esm/Page/AnnotationLayer.css
+JIT TOTAL: 10.603ms
+
+
+
+
+(node:3840888) Warning: Label 'JIT TOTAL' already exists for console.time()
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3840888) Warning: No such label 'JIT TOTAL' for console.timeEnd()
+ ✓ Compiled /edit-chapter/[id] in 1722ms (867 modules)
+ GET /edit-chapter/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 200 in 2456ms
+ GET /course/9575a9a6-2b8b-422a-85fd-440634cbffb0 200 in 33ms
+ GET /edit-chapter/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 200 in 33ms
+ GET /course/9575a9a6-2b8b-422a-85fd-440634cbffb0 200 in 26ms
+ GET / 200 in 13ms
+ GET /course/235a48a9-2a57-4e2a-8661-b27d09e94671 200 in 23ms
+ GET /edit-chapter/f1725264-8cfb-4736-9158-c92c5eff4be7 200 in 25ms

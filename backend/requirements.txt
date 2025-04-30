@@ -1,0 +1,36 @@
+# FastAPI and server dependencies
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-multipart
+psycopg2-binary
+starlette
+websockets
+
+# Database
+sqlalchemy
+alembic
+
+# Development tools
+pytest
+httpx
+
+# Utilities
+python-dotenv
+uuid
+
+# File handling
+aiofiles
+
+# CORS
+requests
+
+# Async support
+asyncio
+
+# Date/time handling
+python-dateutil
+
+# Logging
+loguru

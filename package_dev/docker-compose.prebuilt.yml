@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  frontend:
+    image: FRONTEND_IMAGE_PLACEHOLDER
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+      - FAST_REFRESH=true
+      - NEXT_TELEMETRY_DISABLED=1
+      - CHOKIDAR_INTERVAL=1000
+      - CHOKIDAR_POLLING_INTERVAL=1000
+      - WEBPACK_POLLING=1000
+    entrypoint: ["/entrypoint.sh"]
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app:cached
+      - /app/node_modules
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  backend:
+    image: BACKEND_IMAGE_PLACEHOLDER
+    entrypoint: ["/entrypoint.sh"]
+    environment:
+      - DATABASE_URL=postgresql://user:password@db/osm_tracker_db
+      - DEBUG=True
+      - WATCHDOG_USE_POLLING=true
+      - WATCHDOG_POLLING_INTERVAL=1
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app:cached
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: osm_tracker_db
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d osm_tracker_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge

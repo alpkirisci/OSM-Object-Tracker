@@ -1,0 +1,122 @@
+.header {
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.menuButton {
+  display: block;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-foreground);
+  font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .menuButton {
+    display: none;
+  }
+  
+  .logoContainer {
+    width: auto;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  background-color: var(--color-background);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.navOpen {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    position: static;
+    flex-direction: row;
+    box-shadow: none;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.navLink, .logoutButton {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  color: var(--color-foreground);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover, .logoutButton:hover {
+  color: var(--color-primary);
+}
+
+.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.navIcon {
+  margin-right: 0.5rem;
+}
+
+.logoutButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .navLink, .logoutButton {
+    padding: 0.5rem;
+  }
+} 

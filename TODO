@@ -1,0 +1,33 @@
+DONE
++ "Add/Delete pdf" fuctionality on chapter page
++ After a course is selected that course's existing chapters needs to be displayed
++ Generate video:
+    * the update chapter endpoint needs to be seperated
+    * if pdf related info changes only video should be updated
+    * if script changes both audio and video should be updated
++ There should be a loading screen
++ A prompt needs to be able to produce more than one chapter:
+    * Samet Abi suggested first a prompt to get titles and abouts of chapters as a python array
+    * Then from that array prompts to produce scripts
+    * Makes sense
++ Video needs to be downloadable
++ Fix chapter reordering
++ Current css is wrong practice fix it
++ Dark mode added
+DONE
+
+DOING 
+DOING
+
+WILL DO
+- Add mobile compability
+- Create a custom voice option needs to be implemented
+- Use aeneas to generate subtitles with audio and add it to the video
+- Test authentication in producton
+    * Redo authenticatian checks if it doesnt feel reliable in usage
+- Start using minIO for storing and managing files (videos, audios, pdfs...)
+    * Create docker container for it and learn how to use it
+- After next MVP update populate_db
+    * Save postgres and minIO data and load them
+- Write a readme on how to save and reuse a db and implement necessary setup files for it
+WILL DO

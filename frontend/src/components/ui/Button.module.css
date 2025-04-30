@@ -1,0 +1,78 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary);
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Size variants */
+.xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.md {
+  padding: 0.5rem 1rem;
+}
+
+.lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+}
+
+/* Color variants would normally go here - add as needed with CSS variables:
+.primary {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-background);
+}
+
+etc.
+*/
+
+.loadingSpinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

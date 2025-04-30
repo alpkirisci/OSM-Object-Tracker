@@ -1,0 +1,94 @@
+INFO:     Will watch for changes in these directories: ['/home/ideapad/Desktop/AAAAAA/auto_education/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [3840793] using StatReload
+INFO:     Started server process [3840796]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:35592 - "GET / HTTP/1.1" 200 OK
+2025-03-28 13:33:28,294 - INFO - BASE_DIR: /home/ideapad/Desktop/AAAAAA/auto_education/backend
+2025-03-28 13:33:28,294 - INFO - SAMPLES_DIR: /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples
+2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/videos
+2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/audios
+2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/pdfs
+2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/voices
+2025-03-28 13:33:28,313 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_video.mp4 to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/videos/sample_video.mp4 with full permissions
+2025-03-28 13:33:28,320 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_audio.mp3 to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/audios/sample_audio.mp3 with full permissions
+2025-03-28 13:33:28,321 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_pdf.pdf to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/pdfs/sample_pdf.pdf with full permissions
+2025-03-28 13:33:28,322 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_voice.mp3 to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/voices/sample_voice.mp3 with full permissions
+2025-03-28 13:33:28,322 - INFO - Sample files setup completed successfully
+INFO:     127.0.0.1:35608 - "POST /setup-samples HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55708 - "OPTIONS /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55720 - "OPTIONS /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55708 - "GET /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55736 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33252 - "POST /token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33252 - "OPTIONS /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33252 - "OPTIONS /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33276 - "OPTIONS /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33288 - "OPTIONS /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33298 - "OPTIONS /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33264 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33312 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33298 - "OPTIONS /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33276 - "GET /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33312 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33264 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33288 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33252 - "GET /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33276 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33324 - "OPTIONS /courses/cat1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33328 - "GET /courses/cat1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46044 - "OPTIONS /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46048 - "OPTIONS /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46060 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46060 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46060 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46048 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46044 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46044 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46048 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46048 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46044 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46060 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60276 - "GET /uploads/videos/sample_video.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60278 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60278 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60294 - "GET /uploads/videos/sample_video.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60322 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60322 - "GET /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60322 - "GET /users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /categories HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /voices HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60340 - "GET /courses/cat1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60340 - "OPTIONS /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/pdfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "GET /courses/cat1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60346 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/pdfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /courses HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /courses/cat1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/pdfs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "OPTIONS /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "OPTIONS /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "OPTIONS /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60308 - "OPTIONS /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60304 - "OPTIONS /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60340 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60340 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60340 - "GET /uploads/pdfs/sample_pdf.pdf HTTP/1.1" 200 OK

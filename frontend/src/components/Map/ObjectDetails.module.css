@@ -1,0 +1,175 @@
+.objectDetailsContainer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  width: 350px;
+  max-width: calc(100% - 40px);
+}
+
+.card {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.cardHeader {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-secondary);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.closeButton {
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.cardContent {
+  padding: 0.75rem;
+}
+
+.objectInfo {
+  margin-bottom: 1rem;
+}
+
+.infoRow {
+  display: flex;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.infoLabel {
+  width: 80px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+.infoIcon {
+  margin-right: 0.25rem;
+  color: var(--color-primary);
+}
+
+.infoValue {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.section {
+  margin: 1rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-secondary-light);
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--color-gray-600);
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background-color: var(--color-secondary-light);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.tagKey {
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.tagValue {
+  color: var(--color-gray-700);
+}
+
+.locationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.locationItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-secondary-light);
+}
+
+.locationIcon {
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+  color: var(--color-primary);
+}
+
+.locationDetails {
+  flex: 1;
+}
+
+.locationCoords {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.locationTime {
+  font-size: 0.75rem;
+  color: var(--color-gray-600);
+  margin-top: 0.25rem;
+}
+
+.loadingState, .emptyState {
+  text-align: center;
+  padding: 1rem;
+  color: var(--color-gray-500);
+  font-size: 0.875rem;
+}
+
+.osmLink {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.osmLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .objectDetailsContainer {
+    width: calc(100% - 40px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .card {
+    max-height: 400px;
+  }
+} 

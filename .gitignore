@@ -1,0 +1,11 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+node_modules/
+build/
+.next/
+.next/*
+logs/
+uploads/

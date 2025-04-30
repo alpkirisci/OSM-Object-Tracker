@@ -1,0 +1,51 @@
+.mapContainer {
+  width: 100%;
+  height: 600px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .mapContainer {
+    height: 400px;
+  }
+}
+
+.popupTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.popupType {
+  font-size: 0.875rem;
+  color: var(--color-gray-600);
+  margin-bottom: 0.5rem;
+}
+
+.popupDescription {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.popupDetailsButton {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.popupDetailsButton:hover {
+  background-color: var(--color-primary-hover);
+} 

@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  frontend:
+    image: FRONTEND_IMAGE_PLACEHOLDER
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=/api
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    # Not exposing frontend port directly in production
+
+  backend:
+    image: BACKEND_IMAGE_PLACEHOLDER
+    environment:
+      - DATABASE_URL=postgresql://user:password@db/osm_tracker_db
+      - DEBUG=False
+      - ALLOWED_HOSTS=*  # Allow any host for now, will be handled by Nginx
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app_network
+    # Not exposing backend port directly in production
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: osm_tracker_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app_network
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  app_network: 
