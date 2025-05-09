@@ -7,7 +7,7 @@ import logging
 from config import settings
 
 # Import routers
-from routers import objects, data_sources, websockets
+from routers import objects, data_sources, websockets, sensors, logs, object_types
 
 # Configure logging
 logging.basicConfig(
@@ -48,7 +48,7 @@ except Exception as e:
 # Basic root endpoint
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the OpenStreetMap Object Tracking API", "status": "operational"}
+    return {"message": "Welcome to the Military Object Tracking API", "status": "operational"}
 
 # Health check endpoint
 @app.get("/health")
@@ -59,6 +59,9 @@ async def health():
 app.include_router(objects.router)
 app.include_router(data_sources.router)
 app.include_router(websockets.router)
+app.include_router(sensors.router)
+app.include_router(logs.router)
+app.include_router(object_types.router)
 
 @app.on_event("startup")
 async def startup_event():

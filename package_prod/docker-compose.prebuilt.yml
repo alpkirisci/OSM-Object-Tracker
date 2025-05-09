@@ -25,6 +25,19 @@ services:
       - app_network
     # Not exposing backend port directly in production
 
+  test_data_source:
+    image: TEST_DATA_SOURCE_IMAGE_PLACEHOLDER
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - UPDATE_INTERVAL=10
+      - NUM_OBJECTS=20
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    # Not exposing test data source port directly in production
+
   db:
     image: postgres:15
     environment:

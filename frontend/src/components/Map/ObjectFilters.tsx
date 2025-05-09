@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Filter } from '@/types';
-import { Card, CardContent } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Filter, ObjectType } from '@/types';
+import Card, { CardContent } from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
 
 interface ObjectFiltersProps {
   onFilterChange: (filters: Filter) => void;
@@ -14,15 +14,13 @@ export const ObjectFilters: React.FC<ObjectFiltersProps> = ({
   dataSources,
   className = '',
 }) => {
-  const [type, setType] = useState<string>('');
-  const [tag, setTag] = useState<string>('');
+  const [type, setType] = useState<ObjectType | ''>('');
   const [sourceId, setSourceId] = useState<string>('');
 
   const handleFilterApply = () => {
     const filters: Filter = {};
     
     if (type) filters.type = type;
-    if (tag) filters.tag = tag;
     if (sourceId) filters.source_id = sourceId;
     
     onFilterChange(filters);
@@ -30,7 +28,6 @@ export const ObjectFilters: React.FC<ObjectFiltersProps> = ({
 
   const handleReset = () => {
     setType('');
-    setTag('');
     setSourceId('');
     onFilterChange({});
   };
@@ -49,27 +46,15 @@ export const ObjectFilters: React.FC<ObjectFiltersProps> = ({
               id="type"
               className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
               value={type}
-              onChange={(e) => setType(e.target.value)}
+              onChange={(e) => setType(e.target.value as ObjectType | '')}
             >
               <option value="">All Types</option>
-              <option value="node">Node</option>
-              <option value="way">Way</option>
-              <option value="relation">Relation</option>
+              <option value={ObjectType.SHIP}>Ship</option>
+              <option value={ObjectType.CAR}>Car</option>
+              <option value={ObjectType.AIRPLANE}>Airplane</option>
+              <option value={ObjectType.DRONE}>Drone</option>
+              <option value={ObjectType.OTHER}>Other</option>
             </select>
-          </div>
-          
-          <div>
-            <label htmlFor="tag" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Tag (e.g., "highway", "building")
-            </label>
-            <input
-              type="text"
-              id="tag"
-              className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
-              placeholder="Enter tag"
-            />
           </div>
           
           {dataSources.length > 0 && (

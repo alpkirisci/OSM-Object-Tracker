@@ -1,2 +1,2 @@
 # Import routers
-from . import objects, data_sources, websockets
+from . import objects, data_sources, websockets, sensors, logs

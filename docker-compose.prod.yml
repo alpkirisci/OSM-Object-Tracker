@@ -19,19 +19,33 @@ services:
   backend:
     env_file:
       - .env
-    build:
-      context: ./backend
-      dockerfile: ./docker/prod/Dockerfile
-    restart: unless-stopped
+    image: ${REGISTRY_URL}/${PROJECT_NAME}-backend:${TAG}
     environment:
-      - DATABASE_URL=postgresql://user:${DB_PASSWORD}@db/osm_tracker_db
+      - DATABASE_URL=postgresql://user:password@db/osm_tracker_db
       - DEBUG=False
-      - ALLOWED_HOSTS=*  # Allow any host for now, will be handled by Nginx
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
     networks:
       - app_network
-    # Not exposing backend port directly in production
+    restart: unless-stopped
+
+  test_data_source:
+    image: ${REGISTRY_URL}/${PROJECT_NAME}-test_data_source:${TAG}
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - UPDATE_INTERVAL=10
+      - NUM_OBJECTS=20
+    ports:
+      - "8001:8001"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - app_network
+    restart: unless-stopped
 
   db:
     image: postgres:15

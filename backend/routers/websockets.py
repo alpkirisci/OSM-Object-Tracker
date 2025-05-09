@@ -5,7 +5,7 @@ import logging
 
 from dependencies import get_db
 from core.websocket import websocket_manager
-from models.all import OSMObject, DataSource
+from models.all import TrackedObject, DataSource
 from services.data_source_service import DataSourceService
 
 router = APIRouter(
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 @router.websocket("/objects/{client_id}")
 async def websocket_objects_endpoint(websocket: WebSocket, client_id: str, db: Session = Depends(get_db)):
     """
-    WebSocket endpoint for real-time updates on OSM objects
+    WebSocket endpoint for real-time updates on tracked objects
     """
     await websocket_manager.connect(websocket, client_id)
     try:
@@ -43,9 +43,9 @@ async def websocket_objects_endpoint(websocket: WebSocket, client_id: str, db: S
                     object_type = json_data.get("object_type")
                     limit = json_data.get("limit", 100)
                     
-                    query = db.query(OSMObject)
+                    query = db.query(TrackedObject)
                     if object_type:
-                        query = query.filter(OSMObject.type == object_type)
+                        query = query.filter(TrackedObject.type == object_type)
                     
                     objects = query.limit(limit).all()
                     
@@ -53,10 +53,9 @@ async def websocket_objects_endpoint(websocket: WebSocket, client_id: str, db: S
                     objects_data = [
                         {
                             "id": obj.id,
-                            "osm_id": obj.osm_id,
+                            "object_id": obj.object_id,
                             "type": obj.type,
-                            "tags": obj.tags,
-                            "geom": obj.geom,
+                            "additional_info": obj.additional_info,
                             "source_id": obj.source_id
                         } 
                         for obj in objects
@@ -117,14 +116,14 @@ async def websocket_data_source_endpoint(
                 json_data = json.loads(data)
                 
                 # Process incoming data using the service
-                osm_object = await data_source_service.process_incoming_data(source_id, json_data)
+                tracked_object = await data_source_service.process_incoming_data(source_id, json_data)
                 
-                if osm_object:
+                if tracked_object:
                     # Send acknowledgment
                     await websocket.send_json({
                         "type": "ack",
                         "message": "Data processed successfully",
-                        "object_id": osm_object.id
+                        "object_id": tracked_object.id
                     })
                 else:
                     # Failed to process data

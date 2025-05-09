@@ -14,6 +14,11 @@ if [ ! -f "backend-image.tar.gz" ]; then
     exit 1
 fi
 
+if [ ! -f "test-data-source-image.tar.gz" ]; then
+    echo "Error: test-data-source-image.tar.gz not found"
+    exit 1
+fi
+
 if [ ! -f "postgres-image.tar.gz" ]; then
     echo "Error: postgres-image.tar.gz not found"
     exit 1
@@ -30,6 +35,9 @@ gunzip -c frontend-image.tar.gz | docker load
 
 echo "Loading backend image..."
 gunzip -c backend-image.tar.gz | docker load
+
+echo "Loading test data source image..."
+gunzip -c test-data-source-image.tar.gz | docker load
 
 echo "Loading postgres image..."
 gunzip -c postgres-image.tar.gz | docker load

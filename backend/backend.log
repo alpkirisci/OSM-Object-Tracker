@@ -1,94 +1,103 @@
-INFO:     Will watch for changes in these directories: ['/home/ideapad/Desktop/AAAAAA/auto_education/backend']
-INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [3840793] using StatReload
-INFO:     Started server process [3840796]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:35592 - "GET / HTTP/1.1" 200 OK
-2025-03-28 13:33:28,294 - INFO - BASE_DIR: /home/ideapad/Desktop/AAAAAA/auto_education/backend
-2025-03-28 13:33:28,294 - INFO - SAMPLES_DIR: /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples
-2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/videos
-2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/audios
-2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/pdfs
-2025-03-28 13:33:28,294 - INFO - Created directory with full permissions: /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/voices
-2025-03-28 13:33:28,313 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_video.mp4 to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/videos/sample_video.mp4 with full permissions
-2025-03-28 13:33:28,320 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_audio.mp3 to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/audios/sample_audio.mp3 with full permissions
-2025-03-28 13:33:28,321 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_pdf.pdf to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/pdfs/sample_pdf.pdf with full permissions
-2025-03-28 13:33:28,322 - INFO - Copied /home/ideapad/Desktop/AAAAAA/auto_education/backend/samples/sample_voice.mp3 to /home/ideapad/Desktop/AAAAAA/auto_education/backend/uploads/voices/sample_voice.mp3 with full permissions
-2025-03-28 13:33:28,322 - INFO - Sample files setup completed successfully
-INFO:     127.0.0.1:35608 - "POST /setup-samples HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55708 - "OPTIONS /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55720 - "OPTIONS /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55708 - "GET /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55736 - "GET /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33252 - "POST /token HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33252 - "OPTIONS /users/me HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33252 - "OPTIONS /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33276 - "OPTIONS /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33288 - "OPTIONS /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33298 - "OPTIONS /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33264 - "GET /users/me HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33312 - "GET /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33298 - "OPTIONS /courses HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33276 - "GET /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33312 - "GET /users/me HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33264 - "GET /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33288 - "GET /courses HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33252 - "GET /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33276 - "GET /courses HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33324 - "OPTIONS /courses/cat1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33328 - "GET /courses/cat1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46044 - "OPTIONS /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46048 - "OPTIONS /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46060 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46060 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46060 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46048 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46044 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46044 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46048 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46048 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46044 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:46060 - "OPTIONS /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60276 - "GET /uploads/videos/sample_video.mp4 HTTP/1.1" 206 Partial Content
-INFO:     127.0.0.1:60278 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60278 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60294 - "GET /uploads/videos/sample_video.mp4 HTTP/1.1" 206 Partial Content
-INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60322 - "GET /chapters/8670d7ad-f9e4-4ecd-a1fa-26b87d63aa44/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /courses/9575a9a6-2b8b-422a-85fd-440634cbffb0/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /users/me HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60322 - "GET /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60322 - "GET /users/me HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /categories HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /voices HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60340 - "GET /courses/cat1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /courses HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60340 - "OPTIONS /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/pdfs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /courses/cat1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60346 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/pdfs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /courses HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /courses/cat1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/pdfs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "OPTIONS /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "OPTIONS /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "OPTIONS /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /courses/235a48a9-2a57-4e2a-8661-b27d09e94671/details HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60308 - "OPTIONS /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "OPTIONS /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60340 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60340 - "GET /chapters/f1725264-8cfb-4736-9158-c92c5eff4be7/pdf-references HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60340 - "GET /uploads/pdfs/sample_pdf.pdf HTTP/1.1" 200 OK
+2025-05-09 10:52:19,953 - main - INFO - Application startup
+2025-05-09 10:52:41,512 - main - INFO - Application shutdown
+2025-05-09 10:52:42,535 - main - INFO - Application startup
+2025-05-09 10:53:12,412 - main - INFO - Application shutdown
+2025-05-09 10:53:13,569 - main - INFO - Application startup
+2025-05-09 10:53:14,272 - main - INFO - Application shutdown
+2025-05-09 10:53:15,225 - main - INFO - Application startup
+2025-05-09 10:53:31,271 - main - INFO - Application shutdown
+2025-05-09 10:53:32,285 - main - INFO - Application startup
+2025-05-09 10:53:48,630 - main - INFO - Application shutdown
+2025-05-09 10:53:49,489 - main - INFO - Application startup
+2025-05-09 11:02:33,252 - main - INFO - Application shutdown
+2025-05-09 11:02:34,257 - main - INFO - Application startup
+2025-05-09 11:02:42,783 - main - INFO - Application shutdown
+2025-05-09 11:02:43,809 - main - INFO - Application startup
+2025-05-09 11:03:00,553 - main - INFO - Application shutdown
+2025-05-09 11:03:01,574 - main - INFO - Application startup
+2025-05-09 11:03:20,923 - main - INFO - Application shutdown
+2025-05-09 11:03:21,939 - main - INFO - Application startup
+2025-05-09 11:04:48,064 - main - INFO - Application shutdown
+2025-05-09 11:04:49,125 - main - INFO - Application startup
+2025-05-09 11:05:34,339 - main - INFO - Application startup
+2025-05-09 11:06:28,589 - main - INFO - Application shutdown
+2025-05-09 11:06:29,561 - main - INFO - Application startup
+2025-05-09 11:06:46,806 - main - INFO - Application shutdown
+2025-05-09 11:06:47,795 - main - INFO - Application startup
+2025-05-09 11:06:53,817 - main - INFO - Application shutdown
+2025-05-09 11:06:54,735 - main - INFO - Application startup
+2025-05-09 11:07:25,113 - main - INFO - Application shutdown
+2025-05-09 11:07:26,102 - main - INFO - Application startup
+2025-05-09 11:07:45,559 - main - INFO - Application shutdown
+2025-05-09 11:07:46,611 - main - INFO - Application startup
+2025-05-09 11:08:06,270 - main - INFO - Application shutdown
+2025-05-09 11:08:18,159 - main - INFO - Application startup
+2025-05-09 11:13:07,110 - main - INFO - Application shutdown
+2025-05-09 11:13:08,734 - main - INFO - Application startup
+2025-05-09 11:13:09,904 - main - INFO - Application startup
+2025-05-09 11:33:16,148 - main - INFO - Application shutdown
+2025-05-09 11:33:17,410 - main - INFO - Application startup
+2025-05-09 11:33:42,989 - main - INFO - Application shutdown
+2025-05-09 11:33:43,970 - main - INFO - Application startup
+2025-05-09 11:34:08,845 - main - INFO - Application shutdown
+2025-05-09 11:34:09,842 - main - INFO - Application startup
+2025-05-09 11:51:05,918 - main - INFO - Application shutdown
+2025-05-09 11:51:07,095 - main - INFO - Application startup
+2025-05-09 11:56:05,262 - main - INFO - Application shutdown
+2025-05-09 11:56:06,058 - main - INFO - Application startup
+2025-05-09 12:05:56,537 - main - INFO - Application shutdown
+2025-05-09 12:05:57,871 - main - INFO - Application startup
+2025-05-09 12:05:59,054 - main - INFO - Application startup
+2025-05-09 12:06:54,237 - main - INFO - Application shutdown
+2025-05-09 12:06:55,312 - main - INFO - Application startup
+2025-05-09 12:07:09,454 - main - INFO - Application shutdown
+2025-05-09 12:07:10,400 - main - INFO - Application startup
+2025-05-09 12:08:01,462 - main - INFO - Application shutdown
+2025-05-09 12:08:02,433 - main - INFO - Application startup
+2025-05-09 12:08:14,069 - main - INFO - Application shutdown
+2025-05-09 12:08:15,173 - main - INFO - Application startup
+2025-05-09 12:09:03,318 - main - INFO - Application shutdown
+2025-05-09 12:09:04,248 - main - INFO - Application startup
+2025-05-09 12:09:13,078 - main - INFO - Application shutdown
+2025-05-09 12:09:14,135 - main - INFO - Application startup
+2025-05-09 12:09:15,042 - main - INFO - Application startup
+2025-05-09 12:14:55,556 - main - INFO - Application shutdown
+2025-05-09 12:14:56,377 - main - INFO - Application startup
+2025-05-09 12:30:40,528 - main - INFO - Application shutdown
+2025-05-09 12:30:41,423 - main - INFO - Application startup
+2025-05-09 12:35:50,269 - main - INFO - Application shutdown
+2025-05-09 12:35:51,464 - main - INFO - Application startup
+2025-05-09 12:37:07,585 - main - INFO - Application startup
+2025-05-09 12:39:28,294 - main - INFO - Application shutdown
+2025-05-09 12:39:29,269 - main - INFO - Application startup
+2025-05-09 12:39:33,288 - main - INFO - Application shutdown
+2025-05-09 12:39:35,695 - main - INFO - Application startup
+2025-05-09 12:39:59,769 - main - INFO - Application shutdown
+2025-05-09 12:40:00,927 - main - INFO - Application startup
+2025-05-09 12:43:54,868 - main - INFO - Application startup
+2025-05-09 12:46:25,535 - main - INFO - Application shutdown
+2025-05-09 12:46:26,427 - main - INFO - Application startup
+2025-05-09 12:46:41,472 - main - INFO - Application shutdown
+2025-05-09 12:46:42,524 - main - INFO - Application startup
+2025-05-09 12:46:56,463 - main - INFO - Application shutdown
+2025-05-09 12:46:57,467 - main - INFO - Application startup
+2025-05-09 12:47:05,992 - main - INFO - Application shutdown
+2025-05-09 12:47:07,024 - main - INFO - Application startup
+2025-05-09 12:47:15,148 - main - INFO - Application shutdown
+2025-05-09 12:47:17,391 - main - INFO - Application startup
+2025-05-09 12:48:38,964 - main - INFO - Application shutdown
+2025-05-09 12:48:40,008 - main - INFO - Application startup
+2025-05-09 12:48:46,728 - main - INFO - Application shutdown
+2025-05-09 12:48:47,662 - main - INFO - Application startup
+2025-05-09 12:48:52,276 - main - INFO - Application shutdown
+2025-05-09 12:48:53,234 - main - INFO - Application startup
+2025-05-09 12:48:58,551 - main - INFO - Application shutdown
+2025-05-09 12:48:59,571 - main - INFO - Application startup
+2025-05-09 12:49:04,283 - main - INFO - Application shutdown
+2025-05-09 12:49:06,529 - main - INFO - Application startup
+2025-05-09 12:49:41,131 - main - INFO - Application shutdown
+2025-05-09 12:49:42,063 - main - INFO - Application startup
+2025-05-09 12:49:42,365 - main - INFO - Application shutdown
+2025-05-09 12:49:43,271 - main - INFO - Application startup
+2025-05-09 13:29:55,780 - main - INFO - Application shutdown
+2025-05-09 13:31:38,130 - main - INFO - Application startup

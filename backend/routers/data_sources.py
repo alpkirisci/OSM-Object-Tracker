@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from dependencies import get_db
-from schemas.all import DataSource, DataSourceCreate, DataSourceUpdate, OSMObject
+from schemas.all import DataSource, DataSourceCreate, DataSourceUpdate, TrackedObject
 from models.all import DataSource as DataSourceModel
-from models.all import OSMObject as OSMObjectModel
+from models.all import TrackedObject as TrackedObjectModel
 from services.data_source_service import DataSourceService
 
 router = APIRouter(
@@ -105,7 +105,7 @@ async def deactivate_data_source(
         raise HTTPException(status_code=404, detail="Data source not found")
     return db_source
 
-@router.get("/{source_id}/objects", response_model=List[OSMObject])
+@router.get("/{source_id}/objects", response_model=List[TrackedObject])
 async def get_source_objects(
     source_id: str,
     limit: int = 100,
@@ -122,8 +122,8 @@ async def get_source_objects(
         raise HTTPException(status_code=404, detail="Data source not found")
     
     # Get objects from this source
-    objects = db.query(OSMObjectModel)\
-        .filter(OSMObjectModel.source_id == source_id)\
+    objects = db.query(TrackedObjectModel)\
+        .filter(TrackedObjectModel.source_id == source_id)\
         .offset(offset)\
         .limit(limit)\
         .all()

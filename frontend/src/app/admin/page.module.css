@@ -1,3 +1,104 @@
+.adminContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--color-text-primary, #111);
+}
+
+.adminGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .adminGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-5px);
+}
+
+.adminCard {
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.adminCard:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.cardContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.iconContainer {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: var(--color-text-primary, #111);
+}
+
+.sectionDescription {
+  color: var(--color-text-secondary, #666);
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.cardButton {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* Dark mode support */
+:global(.dark) .title {
+  color: var(--color-text-primary-dark, #f0f0f0);
+}
+
+:global(.dark) .sectionTitle {
+  color: var(--color-text-primary-dark, #f0f0f0);
+}
+
+:global(.dark) .sectionDescription {
+  color: var(--color-text-secondary-dark, #aaa);
+}
+
+:global(.dark) .adminCard:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
 .adminPageContainer {
   display: flex;
   flex-direction: column;
@@ -16,6 +117,12 @@
   margin: 0;
 }
 
+.adminActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .errorMessage {
   background-color: var(--color-danger-light);
   color: var(--color-danger);
@@ -23,16 +130,58 @@
   border-radius: 0.5rem;
 }
 
-.dataSourcesSection {
+.adminNavSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.sectionTitle {
+.adminNavGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.navCard {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.navCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navCardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.navIcon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+.navCardContent h3 {
   font-size: 1.25rem;
   font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.navCardContent p {
+  color: var(--color-gray-600);
   margin: 0;
+}
+
+.dataSourcesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .loadingContainer {

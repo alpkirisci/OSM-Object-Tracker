@@ -48,4 +48,11 @@
 
 .popupDetailsButton:hover {
   background-color: var(--color-primary-hover);
+}
+
+/* Styling for selected markers */
+.mapContainer :global(.selected-marker) {
+  filter: hue-rotate(120deg) brightness(1.2); /* Green tint */
+  transform: scale(1.1); /* Make it slightly larger */
+  z-index: 1000 !important; /* Ensure it's above other markers */
 } 

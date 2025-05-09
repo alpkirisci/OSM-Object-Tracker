@@ -21,22 +21,19 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const [objectTypes, setObjectTypes] = useState<string[]>([]);
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
-  const [availableTags, setAvailableTags] = useState<Record<string, string[]>>({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchFilterOptions = async () => {
       setIsLoading(true);
       try {
-        const [types, sources, tags] = await Promise.all([
-          api.osmObjects.getObjectTypes(),
+        const [types, sources] = await Promise.all([
+          api.trackedObjects.getObjectTypes(),
           api.dataSources.getSources(),
-          api.osmObjects.getObjectTags()
         ]);
         
         setObjectTypes(types);
         setDataSources(sources);
-        setAvailableTags(tags);
       } catch (error) {
         console.error('Failed to load filter options:', error);
       } finally {
@@ -117,21 +114,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     <option value="">All Sources</option>
                     {dataSources.map(source => (
                       <option key={source.id} value={source.id}>{source.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className={styles.filterGroup}>
-                  <label htmlFor="tag-filter" className={styles.filterLabel}>Tag</label>
-                  <select 
-                    id="tag-filter"
-                    className={styles.filterSelect}
-                    value={filter.tag || ''}
-                    onChange={(e) => handleFilterChange('tag', e.target.value || undefined)}
-                  >
-                    <option value="">All Tags</option>
-                    {Object.keys(availableTags).map(tag => (
-                      <option key={tag} value={tag}>{tag}</option>
                     ))}
                   </select>
                 </div>

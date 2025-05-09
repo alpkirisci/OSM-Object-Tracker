@@ -1,12 +1,11 @@
 import React from 'react';
-import { OSMObject } from '@/types';
+import { TrackedObject } from '@/types';
 import Card, { CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { formatTags } from '@/utils/map-utils';
 import { format } from 'date-fns';
 
 interface ObjectDetailProps {
-  object: OSMObject;
+  object: TrackedObject;
   onClose: () => void;
   className?: string;
 }
@@ -25,9 +24,9 @@ export const ObjectDetail: React.FC<ObjectDetailProps> = ({
     }
   };
 
-  const renderTagsTable = () => {
-    if (!object.tags || Object.keys(object.tags).length === 0) {
-      return <p className="text-gray-500 dark:text-gray-400">No tags available</p>;
+  const renderAdditionalInfo = () => {
+    if (!object.additional_info || Object.keys(object.additional_info).length === 0) {
+      return <p className="text-gray-500 dark:text-gray-400">No additional information available</p>;
     }
 
     return (
@@ -40,7 +39,7 @@ export const ObjectDetail: React.FC<ObjectDetailProps> = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {Object.entries(object.tags).map(([key, value]) => (
+            {Object.entries(object.additional_info).map(([key, value]) => (
               <tr key={key}>
                 <td className="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{key}</td>
                 <td className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">{value.toString()}</td>
@@ -56,7 +55,7 @@ export const ObjectDetail: React.FC<ObjectDetailProps> = ({
     <Card className={`${className}`}>
       <CardHeader>
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-medium">OSM Object Details</h3>
+          <h3 className="text-lg font-medium">Military Object Details</h3>
           <Button onClick={onClose} variant="secondary" size="sm">
             Close
           </Button>
@@ -71,8 +70,13 @@ export const ObjectDetail: React.FC<ObjectDetailProps> = ({
           </div>
           
           <div>
-            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">OSM ID</h4>
-            <p>{object.osm_id}</p>
+            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Object ID</h4>
+            <p>{object.object_id}</p>
+          </div>
+          
+          <div>
+            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h4>
+            <p>{object.name || '-'}</p>
           </div>
           
           <div>
@@ -96,20 +100,11 @@ export const ObjectDetail: React.FC<ObjectDetailProps> = ({
           </div>
           
           <div>
-            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Tags</h4>
-            {renderTagsTable()}
+            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Additional Information</h4>
+            {renderAdditionalInfo()}
           </div>
         </div>
       </CardContent>
-      
-      <CardFooter>
-        <Button 
-          onClick={() => window.open(`https://www.openstreetmap.org/${object.type}/${object.osm_id}`, '_blank')}
-          fullWidth
-        >
-          View on OpenStreetMap
-        </Button>
-      </CardFooter>
     </Card>
   );
 }; 

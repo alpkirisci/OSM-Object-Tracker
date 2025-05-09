@@ -8,8 +8,9 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import { DataSource } from '@/types';
 import api from '@/services/api';
-import { FiPlus, FiEdit2, FiTrash2, FiPower } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiPower, FiActivity, FiAlertCircle, FiDatabase, FiTag, FiServer, FiAlertTriangle } from 'react-icons/fi';
 import DataSourceForm from './components/DataSourceForm';
+import Link from 'next/link';
 
 export default function AdminPage() {
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
@@ -60,11 +61,9 @@ export default function AdminPage() {
 
   const handleToggleActive = async (source: DataSource) => {
     try {
-      if (source.is_active) {
-        await api.dataSources.deactivateSource(source.id);
-      } else {
-        await api.dataSources.activateSource(source.id);
-      }
+      const updatedSource = await api.dataSources.updateSource(source.id, {
+        is_active: !source.is_active
+      });
       fetchDataSources();
     } catch (err) {
       console.error('Failed to toggle data source status:', err);
@@ -86,120 +85,63 @@ export default function AdminPage() {
     }
   };
 
+  const adminSections = [
+    {
+      title: 'Data Sources',
+      description: 'Configure and manage data source connections',
+      icon: <FiDatabase size={24} />,
+      href: '/admin/data-sources',
+      color: '#52c41a'
+    },
+    {
+      title: 'Sensors',
+      description: 'Manage sensors and sensor configurations',
+      icon: <FiServer size={24} />,
+      href: '/admin/sensors',
+      color: '#722ed1'
+    },
+    {
+      title: 'Object Types',
+      description: 'Manage tracked object types, icons and colors',
+      icon: <FiTag size={24} />,
+      href: '/admin/object-types',
+      color: '#eb2f96'
+    },
+    {
+      title: 'Logs',
+      description: 'View system logs and validation issues',
+      icon: <FiAlertTriangle size={24} />,
+      href: '/admin/logs',
+      color: '#fa8c16'
+    }
+  ];
+
   return (
     <MainLayout>
-      <div className={styles.adminPageContainer}>
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Admin Dashboard</h1>
-          <Button 
-            onClick={handleAddSource}
-            variant="primary"
-          >
-            <FiPlus />
-            <span>Add Data Source</span>
-          </Button>
+      <div className={styles.adminContainer}>
+        <h1 className={styles.title}>Admin Dashboard</h1>
+        
+        <div className={styles.adminGrid}>
+          {adminSections.map((section) => (
+            <Link href={section.href} key={section.title} className={styles.cardLink}>
+              <Card className={styles.adminCard}>
+                <div className={styles.cardContent}>
+                  <div 
+                    className={styles.iconContainer}
+                    style={{ backgroundColor: section.color }}
+                  >
+                    {section.icon}
+                  </div>
+                  <h2 className={styles.sectionTitle}>{section.title}</h2>
+                  <p className={styles.sectionDescription}>{section.description}</p>
+                  <Button variant="ghost" className={styles.cardButton}>
+                    Manage
+                  </Button>
+                </div>
+              </Card>
+            </Link>
+          ))}
         </div>
-        
-        {error && (
-          <div className={styles.errorMessage}>
-            {error}
-          </div>
-        )}
-        
-        <section className={styles.dataSourcesSection}>
-          <h2 className={styles.sectionTitle}>Data Sources</h2>
-          
-          {isLoading ? (
-            <div className={styles.loadingContainer}>
-              <div className={styles.spinner}></div>
-              <p>Loading data sources...</p>
-            </div>
-          ) : dataSources.length > 0 ? (
-            <div className={styles.dataSourcesGrid}>
-              {dataSources.map(source => (
-                <Card key={source.id} className={styles.dataSourceCard}>
-                  <CardContent className={styles.dataSourceCardContent}>
-                    <div className={styles.dataSourceHeader}>
-                      <h3 className={styles.dataSourceName}>{source.name}</h3>
-                      <Badge variant={source.is_active ? 'success' : 'secondary'}>
-                        {source.is_active ? 'Active' : 'Inactive'}
-                      </Badge>
-                    </div>
-                    
-                    <div className={styles.dataSourceDetails}>
-                      <p className={styles.dataSourceType}>
-                        Type: <span>{source.type === 'websocket' ? 'WebSocket' : 'REST API'}</span>
-                      </p>
-                      
-                      {source.description && (
-                        <p className={styles.dataSourceDescription}>{source.description}</p>
-                      )}
-                      
-                      <div className={styles.connectionInfo}>
-                        <h4 className={styles.connectionTitle}>Connection Info:</h4>
-                        <pre className={styles.connectionJson}>
-                          {JSON.stringify(source.connection_info, null, 2)}
-                        </pre>
-                      </div>
-                    </div>
-                    
-                    <div className={styles.dataSourceActions}>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleToggleActive(source)}
-                        className={styles.actionButton}
-                      >
-                        {source.is_active ? (
-                          <>
-                            <FiPower className={styles.actionIcon} />
-                            <span>Deactivate</span>
-                          </>
-                        ) : (
-                          <>
-                            <FiPower className={styles.actionIcon} />
-                            <span>Activate</span>
-                          </>
-                        )}
-                      </Button>
-                      
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleEditSource(source)}
-                        className={styles.actionButton}
-                      >
-                        <FiEdit2 className={styles.actionIcon} />
-                        <span>Edit</span>
-                      </Button>
-                      
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleDeleteSource(source.id)}
-                        className={styles.actionButton}
-                      >
-                        <FiTrash2 className={styles.actionIcon} />
-                        <span>Delete</span>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className={styles.emptyState}>
-              <p>No data sources found. Add a data source to start tracking OSM objects.</p>
-              <Button 
-                variant="primary" 
-                onClick={handleAddSource}
-              >
-                <FiPlus />
-                <span>Add Data Source</span>
-              </Button>
-            </div>
-          )}
-        </section>
       </div>
       
       {isFormOpen && (

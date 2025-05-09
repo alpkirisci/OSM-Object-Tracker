@@ -1,5 +1,5 @@
 from database import engine
-from models.all import Base, DataSource, OSMObject, ObjectLocation
+from models.all import Base, DataSource, TrackedObject
 import logging
 
 logging.basicConfig(level=logging.INFO)

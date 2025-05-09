@@ -49,4 +49,33 @@ For a portable development setup with prebuilt Docker images:
 - Track and display objects from OpenStreetMap
 - Filter objects by various criteria
 - Admin dashboard for managing data entry points
-- Support for receiving data via various protocols (WebSocket, REST, etc.) 
+- Support for receiving data via various protocols (WebSocket, REST, etc.)
+
+## Development
+
+To run the application in development mode:
+
+```bash
+docker-compose -f docker-compose.dev.yml up
+```
+
+This will start the following services:
+- Frontend (Next.js) on http://localhost:3000
+- Backend (FastAPI) on http://localhost:8000
+- Test Data Source on http://localhost:8001 (generates simulated sensor data)
+- PostgreSQL database
+
+## Testing
+
+The application includes a test data source container that automatically:
+- Generates simulated objects of different types (ships, cars, airplanes, drones)
+- Registers itself as a data source with the backend
+- Creates simulated sensors
+- Continuously sends position updates to the backend
+
+This allows for easy testing of the application without manually adding data. The test data source is included in both development and production environments.
+
+To view the simulated data, visit:
+- http://localhost:8001/status - For simulation status
+- http://localhost:8001/objects - To view all simulated objects
+- http://localhost:8001/sensors - To view all simulated sensors 

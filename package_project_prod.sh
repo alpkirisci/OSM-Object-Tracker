@@ -30,6 +30,11 @@ find backend -type f -not -path "backend/uploads*" | while read file; do
     cp "$file" "$PACKAGE_DIR/$file" 2>/dev/null || true
 done
 
+# Copy test data source directory
+echo "Copying test data source files..."
+mkdir -p "$PACKAGE_DIR/test_data_source"
+cp -r test_data_source/* "$PACKAGE_DIR/test_data_source/" 2>/dev/null || true
+
 # Create uploads directory structure but don't copy the files
 mkdir -p "$PACKAGE_DIR/backend/uploads/data" 2>/dev/null || true
 mkdir -p "$PACKAGE_DIR/backend/uploads/images" 2>/dev/null || true
@@ -93,6 +98,7 @@ if [ -f "package_prod/docker-compose.prebuilt.yml" ]; then
     # Determine image names
     FRONTEND_IMAGE=$(docker-compose -f docker-compose.prod.yml images -q frontend)
     BACKEND_IMAGE=$(docker-compose -f docker-compose.prod.yml images -q backend)
+    TEST_DATA_SOURCE_IMAGE=$(docker-compose -f docker-compose.prod.yml images -q test_data_source)
     
     # If the above command doesn't work, fall back to default naming convention
     if [ -z "$FRONTEND_IMAGE" ]; then
@@ -105,9 +111,15 @@ if [ -f "package_prod/docker-compose.prebuilt.yml" ]; then
         echo "Using default backend image name: $BACKEND_IMAGE"
     fi
     
+    if [ -z "$TEST_DATA_SOURCE_IMAGE" ]; then
+        TEST_DATA_SOURCE_IMAGE="${PROJECT_NAME}_test_data_source"
+        echo "Using default test data source image name: $TEST_DATA_SOURCE_IMAGE"
+    fi
+    
     # Copy and replace image names in docker-compose.prebuilt.yml
     sed -e "s|FRONTEND_IMAGE_PLACEHOLDER|${FRONTEND_IMAGE}|g" \
         -e "s|BACKEND_IMAGE_PLACEHOLDER|${BACKEND_IMAGE}|g" \
+        -e "s|TEST_DATA_SOURCE_IMAGE_PLACEHOLDER|${TEST_DATA_SOURCE_IMAGE}|g" \
         package_prod/docker-compose.prebuilt.yml > "$PACKAGE_DIR/docker-compose.prebuilt.yml"
 else
     echo "Error: docker-compose.prebuilt.yml not found in package_prod directory."
@@ -123,6 +135,9 @@ docker save "$FRONTEND_IMAGE" | gzip > "$PACKAGE_DIR/docker-images/frontend-imag
 
 echo "Saving backend image ($BACKEND_IMAGE)..."
 docker save "$BACKEND_IMAGE" | gzip > "$PACKAGE_DIR/docker-images/backend-image.tar.gz"
+
+echo "Saving test data source image ($TEST_DATA_SOURCE_IMAGE)..."
+docker save "$TEST_DATA_SOURCE_IMAGE" | gzip > "$PACKAGE_DIR/docker-images/test-data-source-image.tar.gz"
 
 echo "Pulling and saving postgres image..."
 docker pull postgres:15

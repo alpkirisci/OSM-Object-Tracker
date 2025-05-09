@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
-from models.all import DataSource, OSMObject
+from models.all import DataSource, TrackedObject
 from core.websocket import websocket_manager
 
 class DataSourceService:
@@ -91,7 +91,7 @@ class DataSourceService:
         self.db.refresh(source)
         return source
     
-    async def process_incoming_data(self, source_id: str, data: Dict[str, Any]) -> Optional[OSMObject]:
+    async def process_incoming_data(self, source_id: str, data: Dict[str, Any]) -> Optional[TrackedObject]:
         """
         Process incoming data from a data source and broadcast updates
         """
@@ -99,7 +99,7 @@ class DataSourceService:
         if not source or not source.is_active:
             return None
         
-        # Process data into an OSM object
+        # Process data into a tracked object
         # Implementation depends on the specific data format from the source
         osm_id = data.get("osm_id")
         obj_type = data.get("type")
@@ -108,9 +108,9 @@ class DataSourceService:
             return None
         
         # Check if object exists
-        obj = self.db.query(OSMObject).filter(
-            OSMObject.osm_id == osm_id,
-            OSMObject.type == obj_type
+        obj = self.db.query(TrackedObject).filter(
+            TrackedObject.object_id == osm_id,
+            TrackedObject.type == obj_type
         ).first()
         
         if obj:
@@ -122,11 +122,10 @@ class DataSourceService:
             self.db.refresh(obj)
         else:
             # Create new object
-            obj = OSMObject(
-                osm_id=osm_id,
+            obj = TrackedObject(
+                object_id=osm_id,
                 type=obj_type,
-                tags=data.get("tags", {}),
-                geom=data.get("geom", ""),
+                additional_info=data.get("tags", {}),
                 source_id=source_id
             )
             self.db.add(obj)
@@ -136,10 +135,9 @@ class DataSourceService:
         # Broadcast update to connected clients
         await websocket_manager.broadcast_object_update(obj.id, {
             "id": obj.id,
-            "osm_id": obj.osm_id,
+            "object_id": obj.object_id,
             "type": obj.type,
-            "tags": obj.tags,
-            "geom": obj.geom,
+            "additional_info": obj.additional_info,
             "source_id": obj.source_id
         })
         
