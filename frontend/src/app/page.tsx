@@ -169,6 +169,16 @@ export default function HomePage() {
       const newVisibleTypes = new Set(prev);
       if (newVisibleTypes.has(type)) {
         newVisibleTypes.delete(type);
+        
+        // If the currently selected object is of this type, deselect it
+        if (selectedObject && selectedObject.type === type) {
+          setSelectedObject(null);
+        }
+
+        // If the details object is of this type, close the details panel
+        if (detailsObject && detailsObject.type === type) {
+          setDetailsObject(null);
+        }
       } else {
         newVisibleTypes.add(type);
       }
@@ -194,7 +204,8 @@ export default function HomePage() {
         <div className={styles.contentLayout}>
           <div className={styles.leftSidebar}>
             <ObjectList 
-              objects={objects}
+              objects={objects.filter(obj => visibleTypes.has(obj.type))}
+              totalObjectCount={objects.length}
               onSelectObject={handleObjectClick}
               onViewObjectDetails={handleViewObjectDetails}
               selectedObjectId={selectedObject?.id || null}

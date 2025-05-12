@@ -154,6 +154,7 @@ def get_object_sensor_data(
     object_id: str, 
     skip: int = 0, 
     limit: int = 100,
+    since: Optional[datetime] = None,
     db: Session = Depends(get_db)
 ):
     # Verify object exists
@@ -161,11 +162,15 @@ def get_object_sensor_data(
     if db_object is None:
         raise HTTPException(status_code=404, detail="Object not found")
     
+    # Build the query
+    query = db.query(SensorDataModel).filter(SensorDataModel.tracked_object_id == object_id)
+    
+    # Apply time filter if provided
+    if since:
+        query = query.filter(SensorDataModel.timestamp >= since)
+    
     # Get sensor data for this object
-    data = db.query(SensorDataModel)\
-        .filter(SensorDataModel.tracked_object_id == object_id)\
-        .order_by(SensorDataModel.timestamp.desc())\
-        .offset(skip).limit(limit).all()
+    data = query.order_by(SensorDataModel.timestamp.desc()).offset(skip).limit(limit).all()
     
     return data
 

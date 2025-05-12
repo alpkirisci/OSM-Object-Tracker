@@ -132,6 +132,20 @@ const trackedObjects = {
   getObjectSensorData: (objectId: string): Promise<SensorData[]> => 
     fetchApi<SensorData[]>(`/objects/${objectId}/sensor-data`),
     
+  getObjectSensorDataWithTimeLimit: (objectId: string, timeRangeMinutes: number): Promise<SensorData[]> => {
+    const endDate = new Date();
+    const startDate = new Date(endDate.getTime() - timeRangeMinutes * 60 * 1000);
+    
+    // For very long time periods, increase the limit
+    const limit = timeRangeMinutes > 10080 ? 5000 : 1000; // More points for periods longer than a week
+    
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      since: startDate.toISOString()
+    });
+    return fetchApi<SensorData[]>(`/objects/${objectId}/sensor-data?${params.toString()}`);
+  },
+    
   getObjectTypes: async (): Promise<string[]> => {
     // Get types from the backend rather than using hardcoded enum values
     const types = await fetchApi<CustomObjectType[]>('/object-types');

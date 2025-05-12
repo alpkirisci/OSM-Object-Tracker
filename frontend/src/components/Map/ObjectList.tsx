@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './ObjectList.module.css';
 import { TrackedObject, ObjectType, Filter } from '@/types';
 import { FiMap, FiUser, FiTag, FiInfo, FiFilter, FiX, FiRefreshCw, FiArrowDown, FiArrowUp, FiEye } from 'react-icons/fi';
@@ -9,6 +9,7 @@ import { getIconForObjectType } from '@/utils/iconUtils';
 
 interface ObjectListProps {
   objects: TrackedObject[];
+  totalObjectCount?: number;
   onSelectObject: (object: TrackedObject) => void;
   onViewObjectDetails?: (object: TrackedObject) => void;
   selectedObjectId: string | null;
@@ -20,6 +21,7 @@ interface ObjectListProps {
 
 const ObjectList: React.FC<ObjectListProps> = ({
   objects,
+  totalObjectCount,
   onSelectObject,
   onViewObjectDetails,
   selectedObjectId,
@@ -31,6 +33,9 @@ const ObjectList: React.FC<ObjectListProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isFilterExpanded, setIsFilterExpanded] = useState(false);
   const [dataSources, setDataSources] = useState<{id: string, name: string}[]>([]);
+  // Create a container ref for scrolling
+  const objectListRef = useRef<HTMLDivElement>(null);
+  const selectedRef = useRef<HTMLDivElement>(null);
   
   // Fetch data sources for filter dropdown
   useEffect(() => {
@@ -95,6 +100,16 @@ const ObjectList: React.FC<ObjectListProps> = ({
       onViewObjectDetails(object);
     }
   };
+
+  // Scroll to selected object when it changes
+  useEffect(() => {
+    if (selectedObjectId && selectedRef.current) {
+      selectedRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }
+  }, [selectedObjectId]);
 
   return (
     <div className={styles.objectListContainer}>
@@ -203,9 +218,15 @@ const ObjectList: React.FC<ObjectListProps> = ({
             className={styles.searchInput}
           />
         </div>
+        {totalObjectCount && totalObjectCount > objects.length && !isLoading && (
+          <div className={styles.filterMessage}>
+            <FiEye className={styles.filterIcon} />
+            <span>{totalObjectCount - objects.length} object{totalObjectCount - objects.length !== 1 ? 's' : ''} hidden by type filter. Toggle object types on the right panel to show them.</span>
+          </div>
+        )}
       </div>
 
-      <div className={styles.objectList}>
+      <div className={styles.objectList} ref={objectListRef}>
         {isLoading ? (
           <div className={styles.loading}>
             <FiRefreshCw className={styles.loadingIcon} />
@@ -219,6 +240,7 @@ const ObjectList: React.FC<ObjectListProps> = ({
           filteredObjects.map((object) => (
             <div 
               key={object.id} 
+              ref={selectedObjectId === object.id ? selectedRef : null}
               className={`${styles.objectCard} ${selectedObjectId === object.id ? styles.selected : ''}`}
               onClick={() => onSelectObject(object)}
             >

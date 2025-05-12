@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-import { MapContainer as LeafletMapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { MapContainer as LeafletMapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import styles from './MapContainer.module.css';
 import { TrackedObject, ObjectType, SensorData } from '@/types';
 import api from '@/services/api';
+import ReactDOMServer from 'react-dom/server';
+import * as FiIcons from 'react-icons/fi';
+import { FiClock, FiEye, FiEyeOff } from 'react-icons/fi';
 
 // Helper component to handle map centering on selected object
 const MapController: React.FC<{ 
@@ -55,6 +58,123 @@ interface MapContainerProps {
   onMapInteraction?: () => void;
 }
 
+// Create a custom Leaflet icon using React Feather icons
+const createIconFromReactComponent = (
+  iconName: string, 
+  iconColor: string = '#2563EB',
+  size: number = 30, 
+  isSelected: boolean = false
+) => {
+  // Handle case when icon name is not found
+  // @ts-ignore - dynamically accessing icons
+  const IconComponent = FiIcons[iconName] || FiIcons.FiMapPin;
+  
+  // Enhanced selection styling
+  const circleSize = isSelected ? size * 1.5 : size;
+  const padding = isSelected ? '8px' : '0';
+  
+  // Render the React component to HTML
+  const iconHtml = ReactDOMServer.renderToString(
+    <div style={{ 
+      color: iconColor,
+      backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.8)' : 'transparent', 
+      padding: padding,
+      borderRadius: '50%',
+      boxShadow: isSelected ? `0 0 0 3px ${iconColor}` : 'none',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: circleSize,
+      height: circleSize
+    }}>
+      <IconComponent size={size} stroke={iconColor} strokeWidth={isSelected ? 3 : 2} />
+    </div>
+  );
+  
+  // Create the Leaflet icon
+  return L.divIcon({
+    html: iconHtml,
+    className: 'react-icon-marker',
+    iconSize: [circleSize, circleSize],
+    iconAnchor: [circleSize/2, circleSize/2],
+    popupAnchor: [0, -circleSize/2]
+  });
+};
+
+// Map object types to icon names from react-icons/fi
+const getIconNameForObjectType = (objectType: string, customType?: TrackedObject['custom_type']): string => {
+  // If custom type is provided and has an icon, use it
+  if (customType?.icon) {
+    return customType.icon;
+  }
+
+  const iconMapping: Record<string, string> = {
+    [ObjectType.SHIP]: 'FiAnchor',
+    [ObjectType.CAR]: 'FiTruck',
+    [ObjectType.AIRPLANE]: 'FiSend',
+    [ObjectType.DRONE]: 'FiRadio',
+    [ObjectType.OTHER]: 'FiTarget',
+    // Add other mappings as needed
+  };
+  
+  return iconMapping[objectType] || 'FiMapPin';
+};
+
+// Get color for object type
+const getColorForObjectType = (objectType: string, customType?: TrackedObject['custom_type']): string => {
+  // If custom type is provided and has a color, use it
+  if (customType?.color) {
+    return customType.color;
+  }
+
+  const colorMapping: Record<string, string> = {
+    [ObjectType.SHIP]: '#3B82F6',     // Blue
+    [ObjectType.CAR]: '#10B981',      // Green
+    [ObjectType.AIRPLANE]: '#F59E0B', // Amber
+    [ObjectType.DRONE]: '#6366F1',    // Indigo
+    [ObjectType.OTHER]: '#8B5CF6',    // Violet
+    // Add other mappings as needed
+  };
+  
+  return colorMapping[objectType] || '#2563EB'; // Default blue
+};
+
+// Time range options in minutes (logarithmic scale with longer periods)
+const timeRangeOptions = [
+  { value: 5, label: '5m' },
+  { value: 30, label: '30m' },
+  { value: 60, label: '1h' },
+  { value: 360, label: '6h' },
+  { value: 720, label: '12h' },
+  { value: 1440, label: '1d' },
+  { value: 14400, label: '10d' },
+  { value: 43200, label: '1m' },
+  { value: 259200, label: '6m' },
+  { value: 525600, label: '1y' },
+  { value: 2628000, label: '5y' }
+];
+
+// Helper component to display path on the map
+const ObjectPath: React.FC<{ 
+  positions: [number, number][]; 
+  color: string;
+}> = ({ positions, color }) => {
+  if (!positions || positions.length < 2) return null;
+  
+  return (
+    <Polyline
+      positions={positions}
+      pathOptions={{ 
+        color, 
+        weight: 3, 
+        opacity: 0.7,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }}
+    />
+  );
+};
+
 const MapContainer: React.FC<MapContainerProps> = ({
   initialCenter = [51.505, -0.09], // Default to London
   initialZoom = 13,
@@ -68,6 +188,10 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const mapRef = useRef<L.Map | null>(null);
   const [objectPositions, setObjectPositions] = useState<Map<string, [number, number]>>(new Map());
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [showPath, setShowPath] = useState(false);
+  const [timeRange, setTimeRange] = useState(60); // Default to 1 hour
+  const [pathPositions, setPathPositions] = useState<[number, number][]>([]);
+  const [historicalData, setHistoricalData] = useState<SensorData[]>([]);
 
   // Fetch the latest positions for each object
   useEffect(() => {
@@ -99,13 +223,56 @@ const MapContainer: React.FC<MapContainerProps> = ({
     }
   }, [objects, mapLoaded]);
 
+  // Fetch the historical path data when needed
+  useEffect(() => {
+    const fetchHistoricalData = async () => {
+      if (!showPath || !selectedObject) return;
+      
+      try {
+        const data = await api.trackedObjects.getObjectSensorDataWithTimeLimit(
+          selectedObject.id, 
+          timeRange
+        );
+        
+        // Sort by timestamp (oldest first to draw the path correctly)
+        const sortedData = [...data].sort((a, b) => 
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+        
+        setHistoricalData(sortedData);
+        
+        // Sample data for very long time periods to avoid performance issues
+        let positions: [number, number][] = [];
+        
+        if (timeRange > 43200 && sortedData.length > 1000) {
+          // For long periods (more than a month), sample the data
+          const sampleInterval = Math.ceil(sortedData.length / 1000);
+          positions = sortedData
+            .filter((_, i) => i % sampleInterval === 0 || i === sortedData.length - 1)
+            .filter(point => point.latitude && point.longitude)
+            .map(point => [point.latitude, point.longitude] as [number, number]);
+        } else {
+          // For regular time periods, use all data points
+          positions = sortedData
+            .filter(point => point.latitude && point.longitude)
+            .map(point => [point.latitude, point.longitude] as [number, number]);
+        }
+        
+        setPathPositions(positions);
+      } catch (error) {
+        console.error('Failed to fetch historical data:', error);
+        setPathPositions([]);
+      }
+    };
+    
+    fetchHistoricalData();
+  }, [selectedObject, showPath, timeRange]);
+
   // Fix for Leaflet icon issue in Next.js
   useEffect(() => {
     // Only run this when window is defined (client-side)
     if (typeof window !== 'undefined') {
-      // This is needed to make Leaflet icons work with webpack
-      // delete (L.Icon.Default.prototype as any)._getIconUrl;
-    
+      // Default icon setup (fallback if custom icons fail)
       L.Icon.Default.mergeOptions({
         iconRetinaUrl: '/leaflet/marker-icon-2x.png',
         iconUrl: '/leaflet/marker-icon.png',
@@ -117,8 +284,52 @@ const MapContainer: React.FC<MapContainerProps> = ({
     }
   }, []);
 
+  // Create custom icon based on object type
+  const getCustomIcon = (object: TrackedObject, isSelected: boolean) => {
+    const iconName = getIconNameForObjectType(object.type, object.custom_type);
+    const iconColor = getColorForObjectType(object.type, object.custom_type);
+    
+    return createIconFromReactComponent(iconName, iconColor, 30, isSelected);
+  };
+
   // Filter objects by visible types
   const visibleObjects = objects.filter(obj => visibleTypes.has(obj.type));
+
+  // Toggle path visibility
+  const handleTogglePath = useCallback(() => {
+    setShowPath(prev => !prev);
+  }, []);
+
+  // Handle time range change
+  const handleTimeRangeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    setTimeRange(timeRangeOptions[value].value);
+  }, []);
+
+  // Format time display
+  const formatTimeDisplay = (minutes: number): string => {
+    if (minutes < 60) {
+      return `${minutes} minutes`;
+    } else if (minutes === 60) {
+      return '1 hour';
+    } else if (minutes < 1440) {
+      return `${minutes / 60} hours`;
+    } else if (minutes === 1440) {
+      return '1 day';
+    } else if (minutes < 43200) { // Less than a month
+      return `${Math.round(minutes / 1440)} days`;
+    } else if (minutes < 525600) { // Less than a year
+      return `${Math.round(minutes / 43200)} months`;
+    } else {
+      return `${Math.round(minutes / 525600)} years`;
+    }
+  };
+
+  // Get color for selected object (for path)
+  const getSelectedObjectColor = (): string => {
+    if (!selectedObject) return '#2563EB'; // Default blue
+    return getColorForObjectType(selectedObject.type, selectedObject.custom_type);
+  };
 
   if (typeof window === 'undefined') {
     return <div className={styles.mapContainer}>Loading map...</div>;
@@ -132,6 +343,17 @@ const MapContainer: React.FC<MapContainerProps> = ({
         className={styles.map}
         ref={mapRef}
       >
+        {/* CSS to style the React icon markers */}
+        <style jsx global>{`
+          .react-icon-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent !important;
+            transition: all 0.2s ease-in-out;
+          }
+        `}</style>
+        
         <MapController 
           center={initialCenter} 
           selectedObject={selectedObject || null} 
@@ -146,45 +368,54 @@ const MapContainer: React.FC<MapContainerProps> = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
+        {/* Draw the historical path if enabled */}
+        {showPath && selectedObject && pathPositions.length > 1 && (
+          <ObjectPath 
+            positions={pathPositions} 
+            color={getSelectedObjectColor()} 
+          />
+        )}
+        
         {mapLoaded && visibleObjects.map(object => {
           const position = objectPositions.get(object.id);
           
           if (position) {
-            const isSelected = selectedObject && selectedObject.id === object.id;
+            const isSelected = selectedObject && selectedObject.id === object.id ? true : false;
             
             return (
               <Marker 
                 key={object.id} 
                 position={position}
                 eventHandlers={{
-                  click: () => onObjectClick && onObjectClick(object)
+                  click: () => {
+                    // When marker is clicked:
+                    // First check if it's not already selected
+                    if (!isSelected) {
+                      // 1. Center the map on this object with animation
+                      if (mapRef.current) {
+                        mapRef.current.flyTo(position, mapRef.current.getZoom(), {
+                          animate: true,
+                          duration: 0.5
+                        });
+                      }
+                      
+                      // 2. Call onObjectClick to select this object in the UI
+                      // This will also scroll the object into view in the list
+                      if (onObjectClick) {
+                        onObjectClick(object);
+                      }
+                    }
+                  }
                 }}
-                icon={isSelected ? new L.Icon({
-                  iconUrl: '/leaflet/marker-icon.png',
-                  iconRetinaUrl: '/leaflet/marker-icon-2x.png',
-                  iconSize: [25, 41],
-                  iconAnchor: [12, 41],
-                  popupAnchor: [1, -34],
-                  shadowUrl: '/leaflet/marker-shadow.png',
-                  shadowSize: [41, 41],
-                  className: 'selected-marker'
-                }) : new L.Icon.Default()}
+                icon={getCustomIcon(object, isSelected)}
               >
                 <Popup>
                   <div>
-                    <h3 className={styles.popupTitle}>
-                      {object.name || `Object #${object.object_id.slice(0, 8)}`}
-                    </h3>
-                    <p className={styles.popupType}>Type: {object.type}</p>
-                    {object.additional_info && object.additional_info.description && (
-                      <p className={styles.popupDescription}>{object.additional_info.description}</p>
-                    )}
-                    <button 
-                      className={styles.popupDetailsButton}
-                      onClick={() => onObjectClick && onObjectClick(object)}
-                    >
-                      View Details
-                    </button>
+                    <h3>{object.name || object.object_id}</h3>
+                    <p>Type: {object.type}</p>
+                    <p>
+                      Position: {position[0].toFixed(5)}, {position[1].toFixed(5)}
+                    </p>
                   </div>
                 </Popup>
               </Marker>
@@ -194,6 +425,41 @@ const MapContainer: React.FC<MapContainerProps> = ({
           return null;
         })}
       </LeafletMapContainer>
+      
+      {/* Path controls */}
+      <div className={styles.pathControls}>
+        <button 
+          className={`${styles.showPathButton} ${showPath ? styles.active : ''}`} 
+          onClick={handleTogglePath}
+          disabled={!selectedObject}
+        >
+          {showPath ? <FiEyeOff size={14} /> : <FiEye size={14} />}
+          {showPath ? 'Hide Path' : 'Show Path'}
+        </button>
+        
+        <div className={`${styles.sliderContainer} ${showPath ? styles.active : ''}`}>
+          <div className={styles.sliderValue}>
+            <FiClock size={12} style={{ marginRight: '4px' }} />
+            {formatTimeDisplay(timeRange)}
+          </div>
+          
+          <input
+            type="range"
+            min="0"
+            max={timeRangeOptions.length - 1}
+            value={timeRangeOptions.findIndex(option => option.value === timeRange)}
+            onChange={handleTimeRangeChange}
+            className={styles.slider}
+            disabled={!showPath}
+          />
+          
+          <div className={styles.sliderLabels}>
+            {timeRangeOptions.map(option => (
+              <span key={option.value}>{option.label}</span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
