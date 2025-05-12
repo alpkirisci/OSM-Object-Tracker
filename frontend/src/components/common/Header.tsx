@@ -40,15 +40,7 @@ const Header: React.FC = () => {
             <FiMap className={styles.navIcon} />
             <span>Map</span>
           </Link>
-          
-          <Link 
-            href="/objects" 
-            className={`${styles.navLink} ${isActive('/objects') ? styles.active : ''}`}
-            onClick={() => setMenuOpen(false)}
-          >
-            <FiList className={styles.navIcon} />
-            <span>Objects</span>
-          </Link>
+        
           
           <Link 
             href="/admin" 

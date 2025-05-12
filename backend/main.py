@@ -27,13 +27,13 @@ app = FastAPI(
 )
 
 # Configure CORS - more restrictive in production
-origins = ["*"] if settings.DEBUG else [f"https://{host.strip()}" for host in settings.ALLOWED_HOSTS]
+origins = ["*"] if settings.DEBUG else [f"https://{host.strip()}" for host in settings.ALLOWED_HOSTS] + [f"http://{host.strip()}" for host in settings.ALLOWED_HOSTS]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"] if not settings.DEBUG else ["*"],
-    allow_headers=["Authorization", "Content-Type"] if not settings.DEBUG else ["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin", "Accept"],
 )
 
 # Ensure directories exist

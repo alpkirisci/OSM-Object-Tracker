@@ -27,9 +27,22 @@ const MapController: React.FC<{
   
   useEffect(() => {
     if (selectedObject && latestPositions.has(selectedObject.id)) {
-      map.panTo(latestPositions.get(selectedObject.id)!);
+      const position = latestPositions.get(selectedObject.id)!;
+      const [lat, lng] = position;
+      // Ensure coordinates are valid before panning
+      if (isFinite(lat) && isFinite(lng)) {
+        // Use setView with current zoom level to maintain zoom
+        const currentZoom = map.getZoom();
+        map.setView(position, currentZoom, { animate: true });
+      }
     } else if (center && shouldResetView) {
-      map.panTo(center);
+      const [lat, lng] = center;
+      // Ensure coordinates are valid before panning
+      if (isFinite(lat) && isFinite(lng)) {
+        // Use setView with current zoom level to maintain zoom
+        const currentZoom = map.getZoom();
+        map.setView(center, currentZoom, { animate: true });
+      }
     }
   }, [map, selectedObject, center, latestPositions, shouldResetView]);
   
@@ -176,7 +189,7 @@ const ObjectPath: React.FC<{
 };
 
 const MapContainer: React.FC<MapContainerProps> = ({
-  initialCenter = [51.505, -0.09], // Default to London
+  initialCenter,
   initialZoom = 13,
   objects = [],
   visibleTypes = new Set(Object.values(ObjectType)),
@@ -188,10 +201,28 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const mapRef = useRef<L.Map | null>(null);
   const [objectPositions, setObjectPositions] = useState<Map<string, [number, number]>>(new Map());
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [initialViewSet, setInitialViewSet] = useState(false);
   const [showPath, setShowPath] = useState(false);
   const [timeRange, setTimeRange] = useState(60); // Default to 1 hour
   const [pathPositions, setPathPositions] = useState<[number, number][]>([]);
   const [historicalData, setHistoricalData] = useState<SensorData[]>([]);
+
+  // Set initial center to first object's position when available
+  useEffect(() => {
+    // Only set initial position once when map loads and objects are available
+    if (mapLoaded && objects.length > 0 && objectPositions.size > 0 && !initialViewSet) {
+      const firstObject = objects[0];
+      const firstPosition = objectPositions.get(firstObject.id);
+      if (firstPosition && mapRef.current) {
+        // Ensure we have valid coordinates
+        const [lat, lng] = firstPosition;
+        if (isFinite(lat) && isFinite(lng)) {
+          mapRef.current.setView([lat, lng], initialZoom);
+          setInitialViewSet(true);
+        }
+      }
+    }
+  }, [mapLoaded, objects, objectPositions, initialZoom, initialViewSet]);
 
   // Fetch the latest positions for each object
   useEffect(() => {
@@ -388,37 +419,30 @@ const MapContainer: React.FC<MapContainerProps> = ({
                 position={position}
                 eventHandlers={{
                   click: () => {
+                    if (onObjectClick) {
+                      onObjectClick(object);
+                    }
                     // When marker is clicked:
                     // First check if it's not already selected
                     if (!isSelected) {
                       // 1. Center the map on this object with animation
                       if (mapRef.current) {
-                        mapRef.current.flyTo(position, mapRef.current.getZoom(), {
-                          animate: true,
-                          duration: 0.5
-                        });
-                      }
-                      
-                      // 2. Call onObjectClick to select this object in the UI
-                      // This will also scroll the object into view in the list
-                      if (onObjectClick) {
-                        onObjectClick(object);
+                        const [lat, lng] = position;
+                        // Ensure coordinates are valid before panning
+                        if (isFinite(lat) && isFinite(lng)) {
+                          // Get current zoom and preserve it
+                          const currentZoom = mapRef.current.getZoom();
+                          mapRef.current.setView(position, currentZoom, {
+                            animate: true,
+                            duration: 0.5
+                          });
+                        }
                       }
                     }
                   }
                 }}
                 icon={getCustomIcon(object, isSelected)}
-              >
-                <Popup>
-                  <div>
-                    <h3>{object.name || object.object_id}</h3>
-                    <p>Type: {object.type}</p>
-                    <p>
-                      Position: {position[0].toFixed(5)}, {position[1].toFixed(5)}
-                    </p>
-                  </div>
-                </Popup>
-              </Marker>
+              />
             );
           }
           

@@ -9,9 +9,11 @@ services:
         - NEXT_PUBLIC_API_BASE_URL=/api
     environment:
       - NEXT_PUBLIC_API_BASE_URL=/api
+      - NEXT_TELEMETRY_DISABLED=1
     restart: unless-stopped
     depends_on:
-      - backend
+      backend:
+        condition: service_started
     networks:
       - app_network
     # Not exposing frontend port directly in production
@@ -19,7 +21,10 @@ services:
   backend:
     env_file:
       - .env
-    image: ${REGISTRY_URL}/${PROJECT_NAME}-backend:${TAG}
+    build:
+      context: ./backend
+      dockerfile: ./docker/prod/Dockerfile
+    entrypoint: ["/entrypoint.sh"]
     environment:
       - DATABASE_URL=postgresql://user:password@db/osm_tracker_db
       - DEBUG=False
@@ -32,32 +37,22 @@ services:
       - app_network
     restart: unless-stopped
 
-  test_data_source:
-    image: ${REGISTRY_URL}/${PROJECT_NAME}-test_data_source:${TAG}
-    environment:
-      - BACKEND_URL=http://backend:8000
-      - UPDATE_INTERVAL=10
-      - NUM_OBJECTS=20
-    ports:
-      - "8001:8001"
-    depends_on:
-      backend:
-        condition: service_started
-    networks:
-      - app_network
-    restart: unless-stopped
-
   db:
     image: postgres:15
-    restart: unless-stopped
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: osm_tracker_db
-    volumes:
-      - db-data:/var/lib/postgresql/data
     networks:
       - app_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d osm_tracker_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
   nginx:
     image: nginx:stable-alpine
@@ -78,4 +73,5 @@ volumes:
 
 networks:
   app_network:
+    driver: bridge
 

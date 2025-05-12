@@ -18,4 +18,5 @@ if [ -f "populate_db.py" ]; then
 fi
 
 echo "Starting FastAPI server in production mode..."
-exec "$@"
+# Execute uvicorn with proper parameters to keep the process running
+exec uvicorn main:app --host 0.0.0.0 --port 8000
